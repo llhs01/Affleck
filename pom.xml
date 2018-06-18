@@ -24,7 +24,15 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+
+
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -35,25 +43,24 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>RELEASE</version>
-			<!-- 移除嵌入式tomcat插件 -->
-			<!--<exclusions>-->
-				<!--<exclusion>-->
-					<!--<groupId>org.springframework.boot</groupId>-->
-					<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-				<!--</exclusion>-->
-			<!--</exclusions>-->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.0.7.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.0.7.RELEASE</version>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.apache.tomcat</groupId>-->
-			<!--<artifactId>tomcat-servlet-api</artifactId>-->
-			<!--<version>8.0.36</version>-->
-			<!--<scope>compile</scope>-->
-		<!--</dependency>-->
+
 	</dependencies>
 
 	<build>
@@ -63,15 +70,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<resources>
-			<!-- 把src/main/resources目录下所有的文件拷贝到conf目录中 -->
-			<resource>
-				<directory>src/main/resources</directory>
-				<targetPath>${project.build.directory}/</targetPath>
-			</resource>
-		</resources>
 	</build>
 
 

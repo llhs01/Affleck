@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+　　scan:xml文件如果发生改变，将会被重新加载，默认值是true
+　　scanPeriod:间隔扫描xml是否改变，scan为true是生效。默认是ms,默认间隔时间是1分钟。
+　　debug:当此属性设置为true时，将打印出logback.xml内部日志消息，默认值是false。　
+-->
+<configuration debug="false" scan="true" scanPeriod="30 seconds">
+    <springProperty scope="context" name="LOG_PATH" source="${logging.path}" />
+    <!--
+    　　name:标签名，为了让其他标签调用的唯一标示
+    　　class:引用的类，从此类中可以看出该appender标签定义的是日志输出的位置
+    -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 常用
+                  %-数字xxx               分隔多少，不要和属性分开写，不挨着会报错
+                  %d{HH……} | d           日期，分开会报错
+                  %thread                线程
+                  %level | p | le        显示级别
+                  %logger{数字} | c | lo  类文件，虽然和class一样，但是如果包.类很长，这个可以获取简约长度展示
+                  %class | c             输出同上
+                  %file  | F             是哪个.java文件
+                  %m | msg | message     输出信息
+                  %M                     方法
+                  %line  | L             错误的行号，少用
+                  %caller{数字}           输出信息深度
+            -->
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] [%-5class] [%-5M] - [%m]%n </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/error.log</file>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] [%-5class] [%-5M] - [%m] %-5line%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/error.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>7</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+    </appender>
+
+
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/info.log</file>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] [%-5class] [%-5M] - [%m] %-5line%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/info.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>7</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+         <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${LOG_PATH}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+        <!-- 保留7天 -->
+        <maxHistory>7</maxHistory>
+        </rollingPolicy>
+
+    </appender>
+
+
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/debug.log</file>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] [%-5class] [%-5M] - [%m] %-5line%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/debug.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+    </appender>
+
+    <!--
+        设置哪个目录或者包，类使用哪个日志
+　　　　 将控制impl包下的所有类的日志的打印，level是打印级别：debug，如果不设置level，它将继承它的上级<root>的日志级别“DEBUG”
+        如果没有设置addtivity，默认为true，将此loger的打印信息向上级传递；
+        如果没有设置appender-ref，此loger本身不打印任何信息。
+    -->
+    <logger name="com" level="DEBUG"/>
+    <logger name="console_logger" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+    <logger name="info_logger" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="INFO" />
+    </logger>
+    <logger name="error_logger" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ERROR" />
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ERROR" />
+        <appender-ref ref="INFO" />
+        <appender-ref ref="DEBUG" />
+    </root>
+
+    <!--
+        当执行impl类的方法时，会首先执行本身引用的appender-ref标签设置的格式打印；
+        当执行不在impl中的方法时，会将级别为“DEBUG”及大于“DEBUG”的日志信息传递给root，
+        root接到下级传递的信息，交给已经配置好的名为“STDOUT”和“log_file”的appender处理，“STDOUT”appender将信息打印到控制台，“log_file”appender将信息打印到日志文件；
+    -->
+
+    <!--myibatis log configure-->
+    <logger name="com.ibatis" level="DEBUG" />
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" />
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />
+    <logger name="java.sql.Connection" level="DEBUG" />
+    <logger name="java.sql.Statement" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" level="DEBUG" />
+
+    <!--日志异步到数据库 -->
+    <!--<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
+    <!--日志异步到数据库 -->
+    <!--<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+        <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <driverClass>com.mysql.jdbc.Driver</driverClass>
+            <url>jdbc:mysql://127.0.0.1:3306/databaseName</url>
+            <user>root</user>
+            <password>root</password>
+        </dataSource>
+    </connectionSource>-->
+    <!--</appender>-->
+
+</configuration>

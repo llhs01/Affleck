@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head th:replace="common::head('首页')"></head>
+<body>
+<section id="container">
+
+    <!--顶部,一般不需要做其它处理-->
+    <div th:replace="common::top"></div>
+
+    <!--每个页面的主内容部分-->
+    <div class="bs-docs-header" id="content" tabindex="-1">
+        <div class="container" th:style="'color:white'" align="center" >
+            <h1>梁磊和徐星汉的开源项目!</h1>
+            <h5>做一些有意思的事情</h5>
+            <h3>Let's go</h3>
+        </div>
+    </div>
+
+
+
+</section>
+
+<script>
+    /*<![CDATA[*/
+    $("#content").css({
+        "background-color":"#4e1c5f",
+        "height":"150px"
+    });
+    /*]]>*/
+
+</script>
+
+
+</body>
+
+</html>
