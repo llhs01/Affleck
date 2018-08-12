@@ -3,40 +3,22 @@
 
 <!--head fragment 传参数title,默认为管理后台-->
 <head th:fragment="head(pagename)">
-    <link rel="shortcut icon"  th:href="@{/static/img/favicon.png}" />
-    <!-- Bootstrap core CSS -->
-    <link  rel="stylesheet"  th:href="@{/static/css/bootstrap.min.css}"/>
-    <link  rel="stylesheet" th:href="@{/static/css/bootstrap-reset.css}"/>
-    <link  rel="stylesheet" th:href="@{/static/css/bootstrap.css}"/>
-    <link  rel="stylesheet" th:href="@{/static/css/bootstrap-theme.min.css}"/>
-    <!--external css-->
-    <link  rel="stylesheet" th:href="@{/static/assets/font-awesome/css/font-awesome.css}"/>
-    <!-- Custom styles for this template -->
-    <link  rel="stylesheet" th:href="@{/static/css/style.css}"/>
-    <link  rel="stylesheet" th:href="@{/static/css/style-responsive.css}"/>
-    <link rel="stylesheet"  th:href="@{/static/css/jquery.datetimepicker.css}"/>
-    <script th:src="@{/static/js/jquery-1.11.0.js}"></script>
-    <script th:src="@{/static/js/bootstrap.min.js}" ></script>
-    <script th:src="@{/static/js/jquery.customSelect.min.js}"></script>
-    <script th:src="@{/static/js/jquery.dcjqaccordion.2.7.js}"></script>
-    <script th:src="@{/static/js/jquery.nicescroll.js}"></script>
-    <script th:src="@{/static/js/slidebars.min.js}"></script>
-    <script th:src="@{/static/js/jquery.scrollTo.min.js}"></script>
-    <script th:src="@{/static/js/jquery.sparkline.js}"></script>
-    <script th:src="@{/static/js/common-scripts.js}"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
-    <script  th:src="@{/static/js/html5shiv.js}"></script>
-    <script  th:src="@{/static/js/respond.min.js}"></script>
-    <script  th:src="@{/static/js/common.js}"></script>
-    <script  th:src="@{/static/js/jquery.datetimepicker.js}"></script>
-    <script  th:src="@{/static/js/jquery.form.js}"></script>
+
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">
+
 </head>
 <!--top fragment-->
     <header th:fragment="top" id="header" >
-
             <div class="container" role="navigation">
                 <!-- Brand and toggle get grouped for better mobile display -->
-
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
@@ -44,14 +26,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">数学Math</a>
+                    <a class="navbar-brand" href="#">个人网站</a>
                 </div>
-
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">数学入门<span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">数学进阶</a></li>
+                        <li class="active"><a href="#">算法学习<span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">算法进阶</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">有趣的事<span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -63,10 +44,6 @@
                             </ul>
                         </li>
                     </ul>
-
-
-
-
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">问题反馈</a></li>
                         <li class="dropdown">
@@ -79,18 +56,31 @@
                                 <li><a href="#">退出登录</a></li>
                             </ul>
                         </li>
+                        <li><a href="/managementBackStage/login">进入管理后台</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
-
     </header>
 
-<!--导航fragment-->
+<!--左侧导航栏-->
+    <header th:fragment="left" id="left">
+        <div class="nav">我是导航栏</div>
+    </header>
 
-<!--css样式及js-->
 
 <script>
     /*<![CDATA[*/
+    $(document).ready(function () {
+        var top = $('.nav').offset().top;
+        $(document).scroll(function () {
+            var scrTop = $(window).scrollTop();
+            if (scrTop >= top) {
+                $('.nav').css({'position': 'fixed', 'top': '0', 'width': '100%'});
+            } else {//否则清空悬浮
+                $('.nav').css({'position': '', 'top': ''});
+            }
+        })
+    })
 
 
     /*]]>*/

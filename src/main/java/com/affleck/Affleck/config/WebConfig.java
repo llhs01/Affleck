@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Created by Dell on 2017/9/30.
+ * Created by lianglei on 2017/9/30.
  */
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
